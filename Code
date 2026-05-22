@@ -1,0 +1,69 @@
+import time
+import random
+
+def busqueda_secuencial(arreglo, objetivo):
+    """Recorre el arreglo elemento por elemento."""
+    for i in range(len(arreglo)):
+        if arreglo[i] == objetivo:
+            return i  # Retorna el índice si lo encuentra
+    return -1  # Retorna -1 si no lo encuentra
+
+def busqueda_binaria(arreglo, objetivo):
+    """Busca dividiendo el rango a la mitad (requiere arreglo ordenado)."""
+    izquierda = 0
+    derecha = len(arreglo) - 1
+    
+    while izquierda <= derecha:
+        medio = (izquierda + derecha) // 2
+        if arreglo[medio] == objetivo:
+            return medio
+        elif arreglo[medio] < objetivo:
+            izquierda = medio + 1
+        else:
+            derecha = medio - 1
+    return -1
+
+def main():
+    # 1. Crear y ordenar un arreglo de 1,000,000 de elementos
+    print("Generando y ordenando 1,000,000 de elementos...")
+    # Usamos un rango de pasos para asegurar elementos únicos ordenados
+    arreglo = list(range(1, 2000000, 2)) 
+    
+    # 2. Solicitar entrada al usuario
+    try:
+        objetivo = int(input("\nIngrese el número entero que desea buscar: "))
+    except ValueError:
+        print("Por favor, ingrese un número válido.")
+        return
+
+    # 3. Ejecutar y medir Búsqueda Secuencial
+    print("\n--- Ejecutando Búsqueda Secuencial ---")
+    inicio_sec = time.perf_counter()
+    pos_sec = busqueda_secuencial(arreglo, objetivo)
+    fin_sec = time.perf_counter()
+    tiempo_sec = fin_sec - inicio_sec
+    
+    if pos_sec != -1:
+        print(f"Resultado: Encontrado en la posición {pos_sec}")
+    else:
+        print("Resultado: Número no encontrado")
+    print(f"Tiempo de ejecución: {tiempo_sec:.6f} segundos")
+
+    # 4. Ejecutar y medir Búsqueda Binaria
+    print("\n--- Ejecutando Búsqueda Binaria ---")
+    inicio_bin = time.perf_counter()
+    pos_bin = busqueda_binaria(arreglo, objetivo)
+    fin_bin = time.perf_counter()
+    tiempo_bin = fin_bin - inicio_bin
+    
+    if pos_bin != -1:
+        print(f"Resultado: Encontrado en la posición {pos_bin}")
+    else:
+        print("Resultado: Número no encontrado")
+    print(f"Tiempo de ejecución: {tiempo_bin:.6f} segundos")
+
+if __name__ == "__main__":
+    main()
+
+
+
